@@ -1,8 +1,12 @@
-import UIKit
 
 protocol Bird {
     var name: String { get }
     var canFly: Bool { get }
+}
+
+extension Bird {
+    // Flyable birds can fly!
+    var canFly: Bool { self is Flyable }
 }
 
 protocol Flyable {
@@ -13,7 +17,6 @@ struct FlappyBird: Bird, Flyable {
     let name: String
     let flappyAmplitude: Double
     let flappyFrequency: Double
-    let canFly = true
     
     var airspeedVelocity: Double {
         3 * flappyFrequency * flappyAmplitude
@@ -22,12 +25,10 @@ struct FlappyBird: Bird, Flyable {
 
 struct Penguin: Bird {
     let name: String
-    let canFly = false
 }
 
 struct SwiftBird: Bird, Flyable {
     var name: String { "Swift \(version)"}
-    var canFly = true
     let version: Double
     private var speedFactor = 1000.0
     
@@ -39,5 +40,33 @@ struct SwiftBird: Bird, Flyable {
     
     var airspeedVelocity: Double {
         version * speedFactor
+    }
+}
+
+enum UnladenSwallow: Bird, Flyable {
+    case african
+    case european
+    case unknown
+    
+    var name: String {
+        switch self {
+        case .african:
+            return "African"
+        case .european:
+            return "European"
+        case .unknown:
+            return "What do you mean? African or European?"
+        }
+    }
+    
+    var airspeedVelocity: Double {
+        switch self {
+        case .african:
+            return 10.0
+        case .european:
+            return 9.9
+        case .unknown:
+            fatalError("You are thrown from the bridge of death!")
+        }
     }
 }
