@@ -88,3 +88,65 @@ UnladenSwallow.african.canFly
 Penguin(name: "King Penguin").canFly
 
 UnladenSwallow.african
+
+let numbers = [10, 20, 30, 40, 50, 60]
+let slice = numbers[1...3]
+let reversedSlice = slice.reversed()
+
+let answer = reversedSlice.map { $0 * 10 }
+print(answer)
+
+class Motorcycle {
+    init(name: String) {
+        self.name = name
+        speed = 200.0
+    }
+    
+    var name: String
+    var speed: Double
+}
+
+// 1
+protocol Racer {
+    var speed: Double { get } // speed is the only thing racers care about
+}
+
+// 2
+extension FlappyBird: Racer {
+    var speed: Double {
+        airspeedVelocity
+    }
+}
+
+extension SwiftBird: Racer {
+    var speed: Double {
+        airspeedVelocity
+    }
+}
+
+extension Penguin: Racer {
+    var speed: Double {
+        42 // full waddle speed
+    }
+}
+
+extension UnladenSwallow: Racer {
+    var speed: Double {
+        canFly ? airspeedVelocity : 0.0
+    }
+}
+
+extension Motorcycle: Racer {
+    
+}
+
+// 3
+let racers: [Racer] = [
+    UnladenSwallow.african,
+    UnladenSwallow.european,
+    UnladenSwallow.unknown,
+    Penguin(name:   "King Penguin"),
+    SwiftBird(version: 5.1),
+    FlappyBird(name: "Felipe", flappyAmplitude: 3.0, flappyFrequency: 20.0),
+    Motorcycle(name: "Giacomo")
+]
