@@ -181,3 +181,18 @@ struct RacingScore: Score {
 
 RacingScore(value: 150) >= RacingScore(value: 130) // true
 
+protocol Cheat {
+  mutating func boost(_ power: Double)
+}
+
+extension SwiftBird: Cheat {
+  mutating func boost(_ power: Double) {
+    speedFactor += power
+  }
+}
+
+var swiftBird = SwiftBird(version: 5.0)
+swiftBird.boost(3.0)
+swiftBird.airspeedVelocity // 5015
+swiftBird.boost(3.0)
+swiftBird.airspeedVelocity // 5030
