@@ -88,6 +88,7 @@ UnladenSwallow.african.canFly
 Penguin(name: "King Penguin").canFly
 
 UnladenSwallow.african
+UnladenSwallow.unknown
 
 let numbers = [10, 20, 30, 40, 50, 60]
 let slice = numbers[1...3]
@@ -150,3 +151,33 @@ let racers: [Racer] = [
     FlappyBird(name: "Felipe", flappyAmplitude: 3.0, flappyFrequency: 20.0),
     Motorcycle(name: "Giacomo")
 ]
+
+func topSpeed<RacersType: Sequence>(of racers: RacersType) -> Double where RacersType.Iterator.Element == Racer {
+    racers.max(by: { $0.speed < $1.speed })?.speed ?? 0.0
+}
+
+topSpeed(of: racers[1...3])
+
+extension Sequence where Iterator.Element == Racer {
+  func topSpeed() -> Double {
+    self.max(by: { $0.speed < $1.speed })?.speed ?? 0.0
+  }
+}
+
+racers.topSpeed()
+racers[1...3].topSpeed()
+
+protocol Score: Comparable {
+  var value: Int { get }
+}
+
+struct RacingScore: Score {
+    static func < (lhs: RacingScore, rhs: RacingScore) -> Bool {
+        lhs.value < rhs.value
+    }
+    
+  let value: Int
+}
+
+RacingScore(value: 150) >= RacingScore(value: 130) // true
+
